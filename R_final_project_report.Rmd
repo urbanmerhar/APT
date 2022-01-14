@@ -20,7 +20,28 @@ source("R_final_project.R")
 
 For the final project in *Asset Pricing Theory* course I decided to simulate stock prices using *geometric Brownian motion*.
 
-GBM explanation + economic explanation...
+*Geometric Brownian motion* is a stochastic process in continuous time. The process is used in mathematical finance to model stock prices. *Geometric Brownian motion* is represented by the stochastic differential equation.
+
+\begin{center}
+$dS_{t} = \mu S_{t} dt + \sigma S_{t} dW_{t}.$
+\end{center}
+
+Coefficients $\mu$ and $\sigma$ are constants and represent the percentage drift and percentage volatility of the stock. The first part of the equation is deterministic and the second part is unpredictable as it contains a random component $dW_{t}$ which is the *Brownian motion*.
+
+Dividing the equation with $S_{t}$ and using *Ito's Lemma* leads us to the solution.
+
+\begin{center}
+$S_{t} = S_{0} \ e^{(\mu - \frac{\sigma^{2}}{2})t + \sigma  W_{t}}$, where $W_{t} \sim N(0, t).$
+\end{center}
+
+We can use this solution of the *geometric Brownian motion* model to simulate stock prices. Here $S_{t}$ is the price of stock at time $t$. We need historical data of the price of stock. Out of this data we estimate *percentage drift* $\hat{\mu}$ and *percentage volatility* $\hat{\sigma}$. Where we firstly calculate log-returns for each $t = 2, \dots, T: \ \ Z_{t} = ln \Big(\frac{S_{t}}{S_{t-1}} \Big)$.
+
+Now we can estimate:
+
+- $\hat{\mu} = \frac{1}{T - 1} \sum_{t=2}^{T}Z_{t}$,
+- $\hat{\sigma} = \sqrt{var(Z_{t}) \ \tau}$,
+
+where $T$ is the number of periods and $\tau$ is the number of trading days between two periods. 
 
 ```{r Zt}
 # stock_prices <- vector of stock prices in the past
@@ -58,7 +79,9 @@ GBMprediction <- function(mu.hat, sigma.hat){
       last.price <- predicted.price[length(predicted.price)]
       }
     predicted.price <- append(predicted.price,
-                               last.price * exp((mu.hat - sigma.hat^2 / 2) * 1/365 + sigma.hat * rnorm(1) * sqrt(1/365)))
+                              last.price * 
+                              exp((mu.hat - sigma.hat^2 / 2) * 1/365 +
+                                  sigma.hat * rnorm(1) * sqrt(1/365)))
   }
   return(predicted.price)
 }
@@ -74,8 +97,11 @@ GBMprediction <- function(mu.hat, sigma.hat){
 # mu.hat
 # sigma.hat
 # date year-month-day
-GBM.simulated.data <- function(N, start = "2022-1-11", end = "2023-01-10", mu.hat, sigma.hat){
-  sim.df <- data.frame(future.date = seq(as.Date("2022-1-11"), as.Date("2023-01-10"), by="days"))
+GBM.simulated.data <- function(N, start = "2022-1-11", end = "2023-01-10",
+                               mu.hat, sigma.hat){
+  sim.df <- data.frame(future.date = seq(as.Date("2022-1-11"), 
+                                         as.Date("2023-01-10"), 
+                                         by="days"))
   for(i in 1:N){
     new <- as.data.frame(GBMprediction(mu.hat, sigma.hat))
     sim.df[ , ncol(sim.df) + 1] <- new
@@ -201,7 +227,8 @@ Now lets see the graph of `simulated.df` where we simulated with *N = 50*.
 
 # for loop didn't work for graphs... :(
 # help for plotting multiple lines with multiple colors in one go
-# help from: https://www.geeksforgeeks.org/how-to-create-a-plot-using-ggplot2-with-multiple-lines-in-r/ 
+# help from: 
+# https://www.geeksforgeeks.org/how-to-create-a-plot-using-ggplot2-with-multiple-lines-in-r/ 
 library("reshape2")
 data_long <- melt(simulated.df, id = "future.date", variable.name = "Simulation")
 ggplot(data_long,            
@@ -220,11 +247,12 @@ ggplot(data_long,
 ```{r all_together}
 # graph of past data + simulations
 ggplot() +
-  geom_line(data = data_long, aes(x = as.Date(future.date), y = value, color = Simulation)) +
-  geom_line(data = df, aes(x = as.Date(Date), y = Price), color="navyblue") +
+  geom_line(data = data_long,
+            aes(x = as.Date(future.date), y = value, color = Simulation)) +
+  geom_line(data = df,
+            aes(x = as.Date(Date), y = Price), color="navyblue") +
   labs(title = "Price of Pfizer stock and simulations", 
-       subtitle = "Simulations using Geometric Brownian motion", 
-       caption = "Source: Nasdaq", 
+       subtitle = "Simulations using Geometric Brownian motion",
        y = "Price USD",
        x = "Date",
        name = "Simulation") +
@@ -232,3 +260,6 @@ ggplot() +
   theme(legend.position = "none")
 ```
 
+---
+
+[GitHub repository](https://github.com/urbanmerhar/APT).

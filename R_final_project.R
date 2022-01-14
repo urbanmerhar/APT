@@ -77,7 +77,8 @@ GBMprediction <- function(mu.hat, sigma.hat){
       last.price <- predicted.price[length(predicted.price)]
       }
     predicted.price <- append(predicted.price,
-                               last.price * exp((mu.hat - sigma.hat^2 / 2) * 1/365 + sigma.hat * rnorm(1) * sqrt(1/365)))
+                              last.price *
+                              exp((mu.hat - sigma.hat^2 / 2) * 1/365 + sigma.hat * rnorm(1) * sqrt(1/365)))
   }
   return(predicted.price)
 }
@@ -118,7 +119,8 @@ simulated.df <- GBM.simulated.data(50, mu.hat = mu.hat, sigma.hat = sigma.hat)
 
 # for loop didnt work for graphs... :(
 # help for ploting multiple lines with multiple colors in one go
-# help from: https://www.geeksforgeeks.org/how-to-create-a-plot-using-ggplot2-with-multiple-lines-in-r/ 
+# help from:
+# https://www.geeksforgeeks.org/how-to-create-a-plot-using-ggplot2-with-multiple-lines-in-r/ 
 library("reshape2")
 data_long <- melt(simulated.df, id = "future.date", variable.name = "Simulation")
 ggplot(data_long,            
