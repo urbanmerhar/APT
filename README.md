@@ -23,9 +23,7 @@ The process is used in mathematical finance to model stock prices.
 *Geometric Brownian motion* is represented by the stochastic
 differential equation.
 
-$$\begin{center}
-dS_{t} = \mu S_{t} dt + \sigma S_{t} dW_{t}.
-$$\end{center}
+$dS_{t} = \mu S_{t} dt + \sigma S_{t} dW_{t}.$
 
 Coefficients $\mu$ and $\sigma$ are constants and represent the percentage drift and percentage volatility of the stock. The first part of the equation is deterministic and the second part is unpredictable as it contains a random component $dW_{t}$ which is the *Brownian motion*.
 
