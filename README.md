@@ -27,22 +27,22 @@ $dS_{t} = \mu S_{t} dt + \sigma S_{t} dW_{t}$.
 
 Coefficients $\mu$
 and
-![\\sigma](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Csigma "\sigma")
+$\sigma$
 are constants and represent the percentage drift and percentage
 volatility of the stock. The first part of the equation is deterministic
 and the second part is unpredictable as it contains a random component
-![dW\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;dW_%7Bt%7D "dW_{t}")
+$dW_{t}$
 which is the *Brownian motion*.
 
 Dividing the equation with
-![S\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7Bt%7D "S_{t}")
+$S_{t}$
 and using *Ito’s Lemma* leads us to the solution.
 
-![S\_{t} = S\_{0} \\ e^{(\\mu - \\frac{\\sigma^{2}}{2})t + \\sigma  W\_{t}}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7Bt%7D%20%3D%20S_%7B0%7D%20%5C%20e%5E%7B%28%5Cmu%20-%20%5Cfrac%7B%5Csigma%5E%7B2%7D%7D%7B2%7D%29t%20%2B%20%5Csigma%20%20W_%7Bt%7D%7D "S_{t} = S_{0} \ e^{(\mu - \frac{\sigma^{2}}{2})t + \sigma  W_{t}}")
+$S_{t} = S_{0} \ e^{(\mu - \frac{\sigma^{2}}{2})t + \sigma  W_{t}}$
 
 , where
 
-![W\_{t} \\sim N(0, t).](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;W_%7Bt%7D%20%5Csim%20N%280%2C%20t%29. "W_{t} \sim N(0, t).")
+$W_{t} \sim N(0, t)$.
 
 We can use this solution of the *geometric Brownian motion* model to
 simulate stock prices. Here
