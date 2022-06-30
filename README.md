@@ -38,34 +38,30 @@ Dividing the equation with
 $S_{t}$
 and using *Ito’s Lemma* leads us to the solution.
 
-$S_{t} = S_{0} \ e^{(\mu - \frac{\sigma^{2}}{2})t + \sigma  W_{t}}$
-
-, where
-
-$W_{t} \sim N(0, t)$.
+$S_{t} = S_{0} \ e^{(\mu - \frac{\sigma^{2}}{2})t + \sigma  W_{t}}$, where $W_{t} \sim N(0, t)$.
 
 We can use this solution of the *geometric Brownian motion* model to
 simulate stock prices. Here
-![S\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7Bt%7D "S_{t}")
+$S_{t}$
 is the price of stock at time
-![t](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;t "t").
+$t$.
 We need historical data of the price of stock. Out of this data we
 estimate *percentage drift*
-![\\hat{\\mu}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Cmu%7D "\hat{\mu}")
+$\hat{\mu}$
 and *percentage volatility*
-![\\hat{\\sigma}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Csigma%7D "\hat{\sigma}").
+$\hat{\sigma}$.
 Where we firstly calculate log-returns for each
-![t = 2, \\dots, T: \\ \\ Z\_{t} = ln \\Big(\\frac{S\_{t}}{S\_{t-1}} \\Big)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;t%20%3D%202%2C%20%5Cdots%2C%20T%3A%20%5C%20%5C%20Z_%7Bt%7D%20%3D%20ln%20%5CBig%28%5Cfrac%7BS_%7Bt%7D%7D%7BS_%7Bt-1%7D%7D%20%5CBig%29 "t = 2, \dots, T: \ \ Z_{t} = ln \Big(\frac{S_{t}}{S_{t-1}} \Big)").
+$t = 2, \dots, T: \ \ Z_{t} = ln \Big(\frac{S_{t}}{S_{t-1}} \Big)$.
 
 Now we can estimate:
 
--   ![\\hat{\\mu} = \\frac{1}{T - 1} \\sum\_{t=2}^{T}Z\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Cmu%7D%20%3D%20%5Cfrac%7B1%7D%7BT%20-%201%7D%20%5Csum_%7Bt%3D2%7D%5E%7BT%7DZ_%7Bt%7D "\hat{\mu} = \frac{1}{T - 1} \sum_{t=2}^{T}Z_{t}"),
--   ![\\hat{\\sigma} = \\sqrt{var(Z\_{t}) \\ \\tau}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Csigma%7D%20%3D%20%5Csqrt%7Bvar%28Z_%7Bt%7D%29%20%5C%20%5Ctau%7D "\hat{\sigma} = \sqrt{var(Z_{t}) \ \tau}"),
+-   $\hat{\mu} = \frac{1}{T - 1} \sum_{t=2}^{T}Z_{t}"$,
+-   $\hat{\sigma} = \sqrt{var(Z_{t}) \ \tau}$,
 
 where
-![T](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;T "T")
+$T$
 is the number of periods and
-![\\tau](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Ctau "\tau")
+$\tau$
 is the number of trading days between two periods.
 
 With all of the above we can simulate stock prices using *geometric
@@ -75,9 +71,9 @@ Brownian motion*.
 
 The first function `GBMmodel` uses a vector of stock prices in the past
 and calculates
-![Z\_{t} = ln \\Big(\\frac{S\_{t}}{S\_{t-1}} \\Big)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Z_%7Bt%7D%20%3D%20ln%20%5CBig%28%5Cfrac%7BS_%7Bt%7D%7D%7BS_%7Bt-1%7D%7D%20%5CBig%29 "Z_{t} = ln \Big(\frac{S_{t}}{S_{t-1}} \Big)").
+$Z_{t} = ln \Big(\frac{S_{t}}{S_{t-1}} \Big)$.
 It returns the vector
-![Z\_{t}, \\ t=2, \\dots, T](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Z_%7Bt%7D%2C%20%5C%20t%3D2%2C%20%5Cdots%2C%20T "Z_{t}, \ t=2, \dots, T").
+$Z_{t}, \ t=2, \dots, T$.
 
 ``` r
 # stock_prices <- vector of stock prices in the past
@@ -94,11 +90,11 @@ GBMmodel <- function(stock_prices){
 ```
 
 Next is the code to calculate
-![Z\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Z_%7Bt%7D "Z_{t}")
+$Z_{t}$
 = `Z.t`,
-![\\hat{\\mu}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Cmu%7D "\hat{\mu}")
+$\hat{\mu}$
 = `mu.hat` and
-![\\hat{\\sigma}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Csigma%7D "\hat{\sigma}")
+$\hat{\sigma}$
 = `sigma.hat` for given data.
 
 ``` r
@@ -114,10 +110,10 @@ sigma.hat <- sqrt(var(Z.t)*1)
 Into function `GBMprediction` we give percentage drift, percentage
 volatility and number of days we want to simulate. By default, the
 number of days is set to
-![365](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;365 "365").
+$365$.
 The function then simulates stock prices for our given data using
 *geometric Brownian motion*. For
-![W\_{t} \\sim N(0, t)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;W_%7Bt%7D%20%5Csim%20N%280%2C%20t%29 "W_{t} \sim N(0, t)")
+$W_{t} \sim N(0, t)$
 the function uses an inbuilt function `rnom`. The function returns a
 vector of simulated stock prices.
 
@@ -144,7 +140,7 @@ GBMprediction <- function(mu.hat, sigma.hat, days = 365){
 ```
 
 The last function `GBM.simulated.data` returns a data frame of
-![N](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;N "N")
+$N$
 simulations using the function `GBMprediction`. Inputs are:
 
 -   `N` - number of simulations,
@@ -181,20 +177,20 @@ Returned data frame looks like:
 
 | Future date                                                                                                | Simulation 1                                                                                                 | Simulation 2                                                                                                 | …                                                                                                          | Simulation N                                                                                                 |
 |------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| Date ![1](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;1 "1")              | ![S\_{11}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7B11%7D "S_{11}") | ![S\_{21}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7B21%7D "S_{21}") | …                                                                                                          | ![S\_{N1}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7BN1%7D "S_{N1}") |
-| Date ![2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;2 "2")              | ![S\_{12}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7B12%7D "S_{12}") | ![S\_{22}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7B22%7D "S_{22}") | …                                                                                                          | ![S\_{N2}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7BN2%7D "S_{N2}") |
-| ![\\vdots](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cvdots "\vdots") | ![\\vdots](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cvdots "\vdots")   | ![\\vdots](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cvdots "\vdots")   | ![\\vdots](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cvdots "\vdots") | ![\\vdots](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cvdots "\vdots")   |
-| Date ![M](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;M "M")              | ![S\_{1M}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7B1M%7D "S_{1M}") | ![S\_{2M}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7B2M%7D "S_{2M}") | …                                                                                                          | ![S\_{NM}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7BNM%7D "S_{NM}") |
+| Date $1$              | $S_{11}$ | $S_{21}$ | …                                                                                                          | $S_{N1}$ |
+| Date $2$              | $S_{12}$ | $S_{22}$ | …                                                                                                          | $S_{N2}$ |
+| $\vdots$ | $\vdots$   | $\vdots$   | $\vdots$ | $\vdots$   |
+| Date $M$              | $S_{1M}$ | $S_{2M}$ | …                                                                                                          | $S_{NM}$ |
 
-![S\_{ij}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7Bij%7D "S_{ij}")
+$S_{ij}$
 is simulated value of simulation
-![i](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;i "i")
+$i$
 on date
-![j](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;j "j"),
+$j$,
 where
-![i \\in \[1,N\]](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;i%20%5Cin%20%5B1%2CN%5D "i \in [1,N]")
+$i \in [1,N]$
 and
-![j \\in \[1, M\]](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;j%20%5Cin%20%5B1%2C%20M%5D "j \in [1, M]").
+$j \in [1, M]$.
 
 # Data
 
@@ -297,18 +293,18 @@ Now that we have the code and the data we can simulate the price of
 stock using *geometric Brownian motion*.
 
 Firstly lets calculate
-![Z\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;Z_%7Bt%7D "Z_{t}")
+$Z_{t}$
 and then
-![\\hat{\\mu}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Cmu%7D "\hat{\mu}")
+$\hat{\mu}$
 and
-![\\hat{\\sigma}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Csigma%7D "\hat{\sigma}").
+$\hat{\sigma}$.
 With this we can simulate the price.
 
 -   `predicted.price` is just one simulation of prices for the next
-    ![365](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;365 "365")
+    $365$
     days.
 -   `simulated.df` is data of
-    ![50](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;50 "50")
+    $50$
     simulations.
 
 ``` r
@@ -362,7 +358,7 @@ ggplot() +
 ![](README_files/figure-gfm/second-1.png)<!-- -->
 
 Now let’s see the graph of `simulated.df` where we simulated with
-![N = 50](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;N%20%3D%2050 "N = 50").
+$N = 50$.
 
 ``` r
 # graph of N simulations
@@ -389,7 +385,7 @@ ggplot(data_long,
 ![](README_files/figure-gfm/N_at_once-1.png)<!-- -->
 
 Since we have
-![50](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;50 "50")
+$50$
 simulations in one graph we cannot read specific simulations, but we can
 see where all the simulations lead to together. So out of this graph and
 the data we can look at specific values such as maximum and minimum at
