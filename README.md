@@ -23,7 +23,9 @@ The process is used in mathematical finance to model stock prices.
 *Geometric Brownian motion* is represented by the stochastic
 differential equation.
 
-![dS\_{t} = \\mu S\_{t} dt + \\sigma S\_{t} dW\_{t}.](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;dS_%7Bt%7D%20%3D%20%5Cmu%20S_%7Bt%7D%20dt%20%2B%20%5Csigma%20S_%7Bt%7D%20dW_%7Bt%7D. "dS_{t} = \mu S_{t} dt + \sigma S_{t} dW_{t}.")
+\begin{center}
+$dS_{t} = \mu S_{t} dt + \sigma S_{t} dW_{t}.$
+\end{center}
 
 Coefficients
 ![\\mu](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cmu "\mu")
