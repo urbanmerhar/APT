@@ -9,7 +9,7 @@ In this project I use *geometric Brownian motion* to simulate a stock
 price a year in advance.
 
 Data was aquired from [nasdaq](https://www.nasdaq.com/). For the project
-I choose the stock of [Pfizer, Inc. Common
+I choose the stock of [Pfizer, Inc. Common
 Stock](https://www.pfizer.com/) as the company is very relevant in this
 covid times.
 
@@ -23,27 +23,54 @@ The process is used in mathematical finance to model stock prices.
 *Geometric Brownian motion* is represented by the stochastic
 differential equation.
 
-$dS_{t} = \mu S_{t} dt + \sigma S_{t} dW_{t}.$
+![dS\_{t} = \\mu S\_{t} dt + \\sigma S\_{t} dW\_{t}.](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;dS_%7Bt%7D%20%3D%20%5Cmu%20S_%7Bt%7D%20dt%20%2B%20%5Csigma%20S_%7Bt%7D%20dW_%7Bt%7D. "dS_{t} = \mu S_{t} dt + \sigma S_{t} dW_{t}.")
 
-Coefficients $\mu$ and $\sigma$ are constants and represent the percentage drift and percentage volatility of the stock. The first part of the equation is deterministic and the second part is unpredictable as it contains a random component $dW_{t}$ which is the *Brownian motion*.
+Coefficients
+![\\mu](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cmu "\mu")
+and
+![\\sigma](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Csigma "\sigma")
+are constants and represent the percentage drift and percentage
+volatility of the stock. The first part of the equation is deterministic
+and the second part is unpredictable as it contains a random component
+![dW\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;dW_%7Bt%7D "dW_{t}")
+which is the *Brownian motion*.
 
-Dividing the equation with $S_{t}$ and using *Ito's Lemma* leads us to the solution.
+Dividing the equation with
+![S\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7Bt%7D "S_{t}")
+and using *Ito’s Lemma* leads us to the solution.
 
-\begin{center}
-$S_{t} = S_{0} \ e^{(\mu - \frac{\sigma^{2}}{2})t + \sigma  W_{t}}$, where $W_{t} \sim N(0, t).$
-\end{center}
+![S\_{t} = S\_{0} \\ e^{(\\mu - \\frac{\\sigma^{2}}{2})t + \\sigma  W\_{t}}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7Bt%7D%20%3D%20S_%7B0%7D%20%5C%20e%5E%7B%28%5Cmu%20-%20%5Cfrac%7B%5Csigma%5E%7B2%7D%7D%7B2%7D%29t%20%2B%20%5Csigma%20%20W_%7Bt%7D%7D "S_{t} = S_{0} \ e^{(\mu - \frac{\sigma^{2}}{2})t + \sigma  W_{t}}")
 
-We can use this solution of the *geometric Brownian motion* model to simulate stock prices. Here $S_{t}$ is the price of stock at time $t$. We need historical data of the price of stock. Out of this data we estimate *percentage drift* $\hat{\mu}$ and *percentage volatility* $\hat{\sigma}$. Where we firstly calculate log-returns for each $t = 2, \dots, T: \ \ Z_{t} = ln \Big(\frac{S_{t}}{S_{t-1}} \Big)$.
+, where
+
+![W\_{t} \\sim N(0, t).](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;W_%7Bt%7D%20%5Csim%20N%280%2C%20t%29. "W_{t} \sim N(0, t).")
+
+We can use this solution of the *geometric Brownian motion* model to
+simulate stock prices. Here
+![S\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;S_%7Bt%7D "S_{t}")
+is the price of stock at time
+![t](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;t "t").
+We need historical data of the price of stock. Out of this data we
+estimate *percentage drift*
+![\\hat{\\mu}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Cmu%7D "\hat{\mu}")
+and *percentage volatility*
+![\\hat{\\sigma}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Csigma%7D "\hat{\sigma}").
+Where we firstly calculate log-returns for each
+![t = 2, \\dots, T: \\ \\ Z\_{t} = ln \\Big(\\frac{S\_{t}}{S\_{t-1}} \\Big)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;t%20%3D%202%2C%20%5Cdots%2C%20T%3A%20%5C%20%5C%20Z_%7Bt%7D%20%3D%20ln%20%5CBig%28%5Cfrac%7BS_%7Bt%7D%7D%7BS_%7Bt-1%7D%7D%20%5CBig%29 "t = 2, \dots, T: \ \ Z_{t} = ln \Big(\frac{S_{t}}{S_{t-1}} \Big)").
 
 Now we can estimate:
 
-- $\hat{\mu} = \frac{1}{T - 1} \sum_{t=2}^{T}Z_{t}$,
-- $\hat{\sigma} = \sqrt{var(Z_{t}) \ \tau}$,
+-   ![\\hat{\\mu} = \\frac{1}{T - 1} \\sum\_{t=2}^{T}Z\_{t}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Cmu%7D%20%3D%20%5Cfrac%7B1%7D%7BT%20-%201%7D%20%5Csum_%7Bt%3D2%7D%5E%7BT%7DZ_%7Bt%7D "\hat{\mu} = \frac{1}{T - 1} \sum_{t=2}^{T}Z_{t}"),
+-   ![\\hat{\\sigma} = \\sqrt{var(Z\_{t}) \\ \\tau}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Chat%7B%5Csigma%7D%20%3D%20%5Csqrt%7Bvar%28Z_%7Bt%7D%29%20%5C%20%5Ctau%7D "\hat{\sigma} = \sqrt{var(Z_{t}) \ \tau}"),
 
-where $T$ is the number of periods and $\tau$ is the number of trading days between two periods.
+where
+![T](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;T "T")
+is the number of periods and
+![\\tau](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Ctau "\tau")
+is the number of trading days between two periods.
 
-With all of the above we can simulate stock prices using *geometric Brownian motion*.
-
+With all of the above we can simulate stock prices using *geometric
+Brownian motion*.
 
 ## Code
 
@@ -376,35 +403,35 @@ deviation.
 max(simulated.df[length(simulated.df),][-1])
 ```
 
-    ## [1] 56.79803
+    ## [1] 57.07191
 
 ``` r
 # minimum
 min(simulated.df[length(simulated.df),][-1])
 ```
 
-    ## [1] 55.59141
+    ## [1] 55.70046
 
 ``` r
 # mean
 mean(t(simulated.df[length(simulated.df),][-1]))
 ```
 
-    ## [1] 56.25413
+    ## [1] 56.3149
 
 ``` r
 # median
 median(t(simulated.df[length(simulated.df),][-1]))
 ```
 
-    ## [1] 56.2562
+    ## [1] 56.28668
 
 ``` r
 # standard deviation
 sd(simulated.df[length(simulated.df),][-1])
 ```
 
-    ## [1] 0.296852
+    ## [1] 0.3489561
 
 For the end lets visualize the simulation together with the actual data.
 
