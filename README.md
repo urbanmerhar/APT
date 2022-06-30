@@ -55,7 +55,7 @@ $t = 2, \dots, T: \ \ Z_{t} = ln \Big(\frac{S_{t}}{S_{t-1}} \Big)$.
 
 Now we can estimate:
 
--   $\hat{\mu} = \frac{1}{T - 1} \sum_{t=2}^{T} Z_{t}"$,
+-   $\hat{\mu} = \frac{1}{T - 1} \sum_{t=2}^{T} Z_{t}$,
 -   $\hat{\sigma} = \sqrt{var(Z_{t}) \ \tau}$,
 
 where
